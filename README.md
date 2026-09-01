@@ -115,3 +115,32 @@ exatamente a armadilha que o exercício do módulo planta para você descobrir n
 traga no dia 2 com o comando e a mensagem. Guia de instalação apodrece rápido: versão nova de
 Ubuntu, o instalador muda, um passo deixa de existir. Quem encontrar primeiro conserta para todo
 mundo.
+
+---
+
+## Slides do encontro
+
+A apresentação do **Dia 1 — "Por que Linux, e a máquina de pé"**, nos dois formatos, está em [**Releases → v1.0-modulo-0**](https://github.com/chidekina/agentia-guia-ambiente/releases/tag/v1.0-modulo-0):
+
+- `modulo-0-dia-1-linux-wsl.pdf` — para ler offline ou imprimir
+- `modulo-0-dia-1-linux-wsl.html` — abre no navegador, é o que roda na aula
+
+Os slides ficam no release e não na árvore do repositório de propósito: são 2,2 MB (quase tudo
+fontes embutidas, para o deck funcionar sem internet na sala) contra 36 KB de guia. Na árvore, todo
+aluno que clonasse baixaria os 2,2 MB para sempre, inclusive quem só quer as páginas.
+
+O slide **não substitui o guia**. Ele dá o porquê e a ordem; os comandos exatos, com o que fazer
+quando quebram, estão nas páginas numeradas acima. Na aula seguimos o guia — o slide é o fio.
+
+---
+
+## Licença
+
+O material didático deste repositório (todas as páginas `.md`, os slides e o glossário) está sob
+**[CC BY-SA 4.0](LICENSE)**: pode usar, adaptar e redistribuir, inclusive comercialmente, desde que
+**dê crédito** e **mantenha a mesma licença** no que derivar.
+
+O script `verificar-links.sh` é código, e fica sob **[MIT](LICENSE-CODE)** — use como quiser, sem obrigação de
+compartilhar igual.
+
+Em resumo: leve o guia para a sua turma. Se melhorar, deixe a melhoria aberta do mesmo jeito.
