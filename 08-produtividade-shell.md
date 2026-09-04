@@ -19,9 +19,9 @@ diferença se paga em minutos por dia, todo dia, pelo resto do catálogo.
 | A dor que você já sentiu | O que resolve |
 |---|---|
 | Digitou o comando errado três vezes e o shell não ajudou | **zsh** com autocompletar e correção |
-| Não lembra do comando de ontem, e `history` tem 2000 linhas | **fzf** (`Ctrl-R`) |
+| Não lembra do comando de ontem, e `history` tem 2000 linhas | **atuin** (`Ctrl-R`) ou **fzf** |
 | Fechou o terminal e o `docker compose up` morreu junto | **tmux** |
-| Não sabe em que branch está antes de rodar `git commit` | prompt com git (**starship**) |
+| Não sabe em que branch está antes de rodar `git commit` | prompt com git (**spaceship** ou **starship**) |
 | `cat` de arquivo grande vira parede de texto sem cor | **bat** |
 | `cd ../../projetos/aethos/algumacoisa` toda vez | **zoxide** |
 | Reinstalou a máquina e perdeu tudo que tinha configurado | **dotfiles** em repositório |
@@ -65,23 +65,30 @@ Dois plugins pagam a instalação sozinhos:
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions \
   "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting \
-  "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting \
+  "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting"
 ```
 
-Depois, em `~/.zshrc`, a linha `plugins=(...)` — **a ordem importa**, `syntax-highlighting` por
-último:
+Depois, em `~/.zshrc`, a linha `plugins=(...)` — **a ordem importa**, o destaque de sintaxe por
+**último**, senão ele não enxerga o que os outros definiram.
+
+Esta é a linha que roda na máquina do instrutor, copiada do `~/.zshrc` e não inventada para o
+material:
 
 ```bash
-plugins=(git docker docker-compose npm zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(autoenv git gitignore node npm zsh-autosuggestions vi-mode fast-syntax-highlighting)
 ```
+
+`vi-mode` só entra se você já usa vi — senão é exatamente a ferramenta cuja dor você não tem.
+`fast-syntax-highlighting` e `zsh-syntax-highlighting` resolvem o mesmo problema; o primeiro é mais
+rápido em linha longa, e é o que está ligado aqui.
 
 `source ~/.zshrc` para aplicar sem fechar o terminal.
 
 | plugin | o que você vê |
 |---|---|
 | `zsh-autosuggestions` | o comando de ontem aparece em cinza enquanto você digita; `→` aceita |
-| `zsh-syntax-highlighting` | comando que existe fica verde, comando que não existe fica vermelho — **antes** de você apertar Enter |
+| `fast-syntax-highlighting` | comando que existe fica verde, comando que não existe fica vermelho — **antes** de você apertar Enter |
 | `git` | dezenas de atalhos (`gst`, `gco`, `glog`) e o branch no prompt |
 
 > **Custo honesto:** Oh My Zsh carrega em toda abertura de terminal. Com muitos plugins, o shell
@@ -106,32 +113,52 @@ sessão continua rodando.
 sudo apt install -y tmux
 ```
 
-Os cinco comandos que resolvem 90% do uso. `Ctrl-b` é o **prefixo** — aperta, solta, e então a
-tecla:
+Os seis comandos que resolvem 90% do uso. Tudo começa pelo **prefixo** — aperta, solta, e então a
+tecla. O prefixo de fábrica é `Ctrl-b`; a configuração abaixo troca para `Ctrl-a`, e a tabela vale
+para os dois: onde está `PREFIXO`, use o seu.
 
 | o que você quer | como |
 |---|---|
 | criar sessão com nome | `tmux new -s agentia` |
-| sair sem matar nada (*detach*) | `Ctrl-b` `d` |
+| sair sem matar nada (*detach*) | `PREFIXO` `d` |
 | voltar para ela | `tmux attach -t agentia` |
 | ver o que está rodando | `tmux ls` |
-| dividir a tela | `Ctrl-b` `%` (vertical) · `Ctrl-b` `"` (horizontal) |
-| trocar de painel | `Ctrl-b` seta |
+| dividir a tela | `PREFIXO` `%` e `"` (ou `|` e `-`, com a config abaixo) |
+| trocar de painel | `PREFIXO` seta |
 
 **O uso que vale na aula:** um painel com o serviço rodando, outro com o log, outro com o shell
 livre — e nada disso morre quando você fecha a janela para almoçar.
 
-🔴 **`detach` não é `exit`.** `Ctrl-b d` sai e **deixa rodando**; `exit` mata o painel. Quem confunde
+🔴 **`detach` não é `exit`.** `PREFIXO` `d` sai e **deixa rodando**; `exit` mata o painel. Quem confunde
 os dois acha que o tmux "perdeu" a sessão. `tmux ls` responde qual dos dois aconteceu — se a sessão
 está lá, você deu detach.
 
 Uma configuração mínima em `~/.tmux.conf`, se a barra de status atrapalhar mais que ajudar:
 
 ```conf
+unbind C-b
+set-option -g prefix C-a     # C-b briga com vi/emacs; C-a não
 set -g mouse on              # rolar e clicar no painel com o mouse
 set -g base-index 1          # janelas começam em 1, não em 0
+set -s escape-time 0         # Esc instantâneo no modo vi
+set -g history-limit 50000
 setw -g mode-keys vi
+
+# as duas que mais pagam: painel novo abre no MESMO diretório
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+bind r source-file ~/.tmux.conf \; display " Config reloaded"
 ```
+
+🔴 **Trocar o prefixo é decisão, não melhoria universal.** `C-a` é o padrão do `screen` e não
+conflita com o começo-de-linha do vi, mas conflita com o `Ctrl-a` do *bash* (que também é
+começo-de-linha). Se você vive no bash sem vi-mode, `C-b` pode ser melhor para você. O que **não**
+é opinião: painel que abre em `~` em vez de abrir onde você está custa um `cd` por painel, e você
+abre dezenas por dia.
+
+🔴 **Material da internet assume `C-b`**, e prefixo trocado é a causa nº 1 de "o atalho não
+funciona". Antes de concluir que o tmux está quebrado, confira o seu prefixo:
+`tmux show-options -g prefix`.
 
 ---
 
@@ -150,6 +177,19 @@ No zsh, com Oh My Zsh, adicione `fzf` à lista de `plugins`. No bash:
 # ~/.bashrc
 source /usr/share/doc/fzf/examples/key-bindings.bash
 ```
+
+**O que roda na máquina do instrutor é o `atuin`, não o `fzf`, para o `Ctrl-R`.** Ele guarda o
+histórico em banco, com diretório e código de saída junto, então a busca é por contexto e não só
+por texto:
+
+```bash
+bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
+echo 'eval "$(atuin init zsh --disable-up-arrow)"' >> ~/.zshrc
+```
+
+`--disable-up-arrow` é deliberado: seta para cima continua sendo o histórico local, que é o que o
+dedo já sabe fazer. Sem essa flag, o atuin toma a seta também, e o gesto mais automático do shell
+muda de comportamento sem aviso. O `fzf` continua valendo pelo `Ctrl-T` e `Alt-C`.
 
 | atalho | o que faz |
 |---|---|
@@ -173,6 +213,11 @@ echo 'eval "$(starship init zsh)"' >> ~/.zshrc     # troque zsh por bash se for 
 
 O starship é **independente do Oh My Zsh** — se usar os dois, deixe o tema do Oh My Zsh vazio
 (`ZSH_THEME=""`) para não ter dois prompts brigando.
+
+**Aqui roda `spaceship`, que é a outra escolha:** tema *do* Oh My Zsh, mesma informação no prompt,
+instalado como tema em vez de binário separado. Os dois resolvem o mesmo problema e não se
+somam — escolha um. `starship` é mais rápido e serve qualquer shell; `spaceship` já vem integrado
+a quem usa Oh My Zsh.
 
 > **Fonte.** Os ícones do prompt exigem uma *Nerd Font* instalada **no terminal do Windows**, não no
 > Linux — quem desenha a letra é o Windows Terminal. Sem ela você vê quadradinhos. Instale uma
