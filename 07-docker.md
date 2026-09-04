@@ -196,3 +196,12 @@ PULAR_REPO=1 bash verificar-ambiente.sh
 ```
 
 Verde em tudo? Você está pronto para a janela 1 — que é exatamente o que este módulo prometeu.
+
+---
+
+## Opcional, e só depois disto
+
+A máquina funciona. O que vem agora não muda o critério de aceite — muda quanto tempo você perde
+por dia usando ela: [`08-produtividade-shell.md`](08-produtividade-shell.md) (zsh, tmux, fzf,
+prompt com git, dotfiles).
+

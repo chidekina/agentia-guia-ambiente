@@ -42,6 +42,12 @@ Depois, **todo mundo faz os mesmos quatro**, na ordem:
 3. [`06-git-e-github.md`](06-git-e-github.md) — identidade, chave SSH, primeiro clone
 4. [`07-docker.md`](07-docker.md) — subir um banco e conversar com ele
 
+Terminou os quatro? A máquina está pronta e o módulo está cumprido. O quinto é **opcional** e não
+entra em critério nenhum:
+
+5. [`08-produtividade-shell.md`](08-produtividade-shell.md) — zsh, tmux, fzf e as ferramentas que
+   você só instala depois de ter sentido a dor que cada uma resolve
+
 Travou? [`PROBLEMAS.md`](PROBLEMAS.md) é sintoma → causa → ação, e cobre as falhas que aparecem
 de verdade. Palavra que você não conhece? [`GLOSSARIO.md`](GLOSSARIO.md).
 Quer ir além? [`REFERENCIAS.md`](REFERENCIAS.md).
