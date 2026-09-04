@@ -135,6 +135,15 @@ Os slides ficam no release e não na árvore do repositório de propósito: são
 fontes embutidas, para o deck funcionar sem internet na sala) contra 36 KB de guia. Na árvore, todo
 aluno que clonasse baixaria os 2,2 MB para sempre, inclusive quem só quer as páginas.
 
+A apresentação do **Dia 2 — "Ambiente controlado, ferramentas e as armadilhas do WSL"** está em
+[**Releases → v1.1-modulo-0-dia-2**](https://github.com/chidekina/agentia-guia-ambiente/releases/tag/v1.1-modulo-0-dia-2):
+
+- `modulo-0-dia-2-ferramentas-ambiente.pdf`
+- `modulo-0-dia-2-ferramentas-ambiente.html`
+
+O bloco **2b** desse deck é a página [`08-produtividade-shell.md`](08-produtividade-shell.md), a
+única opcional do guia.
+
 O slide **não substitui o guia**. Ele dá o porquê e a ordem; os comandos exatos, com o que fazer
 quando quebram, estão nas páginas numeradas acima. Na aula seguimos o guia — o slide é o fio.
 
